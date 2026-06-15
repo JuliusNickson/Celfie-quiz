@@ -73,21 +73,23 @@ Optional for a deployed frontend:
 
 | Variable | Value |
 |----------|--------|
-| `FRONTEND_URL` | Your frontend origin (e.g. `https://your-app.vercel.app`) |
+| `FRONTEND_URL` | Your Vercel URL (e.g. `https://celfie-quiz.vercel.app`) — required for CORS |
+
+### 6. Frontend connection (Vercel)
+
+In **Vercel** → Project → **Settings** → **Environment Variables**:
+
+| Variable | Value |
+|----------|--------|
+| `VITE_API_URL` | `https://YOUR-RAILWAY-URL.up.railway.app` |
+
+Then **redeploy** the frontend (env vars are baked in at build time).
 
 ### 5. Verify deployment
 
 ```bash
 curl https://YOUR-RAILWAY-URL/health
 # {"status":"ok"}
-```
-
-### 6. Frontend connection
-
-Set the frontend env var:
-
-```env
-VITE_API_URL=https://YOUR-RAILWAY-URL/api
 ```
 
 ## Scripts

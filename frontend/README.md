@@ -1,73 +1,52 @@
-# React + TypeScript + Vite
+# Digital Superpower — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + Vite quiz UI for the Celfie activation.
 
-Currently, two official plugins are available:
+## Local development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+API defaults to `http://localhost:3001/api` in dev. Start the backend locally first.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Deploy on Vercel
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 1. Import project
+
+- Root Directory: `frontend`
+- Framework: Vite
+
+### 2. Environment variable (required)
+
+Vite bakes env vars in at **build time**. You must set this in Vercel **before** deploying:
+
+| Variable | Example |
+|----------|---------|
+| `VITE_API_URL` | `https://your-backend.up.railway.app` |
+
+Use your **Railway backend public URL** (HTTPS). `/api` is appended automatically if omitted.
+
+### 3. Redeploy
+
+After adding `VITE_API_URL`, trigger a **new deployment** (Settings → Deployments → Redeploy).  
+Changing env vars does not update an already-built bundle.
+
+### 4. Railway backend CORS
+
+On your Railway **backend** service, set:
+
+| Variable | Value |
+|----------|--------|
+| `FRONTEND_URL` | `https://celfie-quiz.vercel.app` |
+
+Redeploy the backend after adding this.
+
+## Troubleshooting
+
+**Error: requests to `http://localhost:3001`**  
+`VITE_API_URL` was not set when Vercel built the app. Add it and redeploy.
+
+**CORS / blocked requests**  
+Ensure `FRONTEND_URL` on Railway matches your exact Vercel URL (including `https://`).
