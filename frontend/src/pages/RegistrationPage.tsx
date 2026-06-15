@@ -2,6 +2,7 @@ import { useState } from "react";
 import { flushSync } from "react-dom";
 import { Link, useNavigate } from "react-router-dom";
 import { registerParticipant } from "../services/participantService.ts";
+import { isApiConfigured } from "../services/api.ts";
 import { useQuiz } from "../store/QuizContext";
 
 export default function RegistrationPage() {
@@ -109,6 +110,12 @@ export default function RegistrationPage() {
           {error && (
             <p className="rounded-lg bg-red-950 px-4 py-3 text-sm text-red-300">
               {error}
+            </p>
+          )}
+
+          {!isApiConfigured && !import.meta.env.DEV && (
+            <p className="rounded-lg bg-amber-950 px-4 py-3 text-sm text-amber-200">
+              API is not configured. Set <code className="text-amber-100">VITE_API_URL</code> in Vercel to your Railway URL, then redeploy.
             </p>
           )}
 

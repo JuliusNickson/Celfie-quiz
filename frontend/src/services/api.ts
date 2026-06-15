@@ -5,7 +5,7 @@ function normalizeApiBaseUrl(url: string): string {
   return trimmed.endsWith("/api") ? trimmed : `${trimmed}/api`;
 }
 
-function getApiBaseUrl(): string {
+export function getApiBaseUrl(): string {
   const configured = import.meta.env.VITE_API_URL;
 
   if (configured) {
@@ -16,16 +16,14 @@ function getApiBaseUrl(): string {
     return "http://localhost:3001/api";
   }
 
-  // Production must not fall back to localhost (blocked as mixed content on HTTPS).
-  console.error(
-    "VITE_API_URL is not set. Add your Railway API URL in Vercel → Settings → Environment Variables, then redeploy.",
-  );
-
   return "";
 }
 
+export const API_BASE_URL = getApiBaseUrl();
+export const isApiConfigured = Boolean(API_BASE_URL);
+
 const api = axios.create({
-  baseURL: getApiBaseUrl(),
+  baseURL: API_BASE_URL,
 });
 
 export default api;

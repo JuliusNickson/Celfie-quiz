@@ -1,5 +1,5 @@
 import axios from "axios";
-import api from "./api.ts";
+import api, { API_BASE_URL } from "./api.ts";
 
 export type RegisterParticipantPayload = {
   name: string;
@@ -25,6 +25,12 @@ type ValidationErrorResponse = {
 export async function registerParticipant(
   payload: RegisterParticipantPayload,
 ) {
+  if (!API_BASE_URL) {
+    throw new Error(
+      "API URL is not configured. Set VITE_API_URL to your Railway backend URL in Vercel, then redeploy.",
+    );
+  }
+
   try {
     const response = await api.post<RegisterParticipantResponse>(
       "/participants/register",
@@ -32,16 +38,24 @@ export async function registerParticipant(
     );
     return response.data;
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response?.data) {
-      const data = error.response.data as ValidationErrorResponse;
-
-      if (data.details) {
-        const messages = Object.values(data.details).flat();
-        throw new Error(messages.join(" "));
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 404) {
+        throw new Error(
+          `API endpoint not found at ${API_BASE_URL}/participants/register. Check VITE_API_URL points to your Railway backend (test ${API_BASE_URL.replace(/\/api$/, "")}/health).`,
+        );
       }
 
-      if (typeof data.error === "string") {
-        throw new Error(data.error);
+      if (error.response?.data) {
+        const data = error.response.data as ValidationErrorResponse;
+
+        if (data.details) {
+          const messages = Object.values(data.details).flat();
+          throw new Error(messages.join(" "));
+        }
+
+        if (typeof data.error === "string") {
+          throw new Error(data.error);
+        }
       }
     }
 
