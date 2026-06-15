@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ProfileType {
+  CONNECTOR
+  EXPLORER
+  CREATOR
+  PROBLEM_SOLVER
+}
+
+model Participant {
+  id                    String   @id @default(uuid())
+  name                  String
+  email                 String   @unique
+  dataProcessingConsent Boolean
+  prizeDrawConsent      Boolean  @default(false)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  quizResult QuizResult?
+
+  @@index([email])
+}
+
+model QuizResult {
+  id            String      @id @default(uuid())
+  participantId String      @unique
+  participant   Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  profileType   ProfileType
+  scores        Json
+  answers       Json
+  completedAt   DateTime    @default(now())
+
+  @@index([profileType])
+  @@index([completedAt])
+}
