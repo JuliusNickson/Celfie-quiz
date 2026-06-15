@@ -1,19 +1,18 @@
 import "dotenv/config";
 import { defineConfig } from "prisma/config";
 
+// prisma generate only parses this URL; it does not connect.
+// Railway provides DATABASE_URL at runtime for migrate deploy and the app.
+const PLACEHOLDER_DATABASE_URL =
+  "postgresql://build:build@localhost:5432/build?schema=public";
+
 function getDatabaseUrl(): string {
-  const url =
+  return (
     process.env.DIRECT_DATABASE_URL ??
     process.env.DATABASE_URL ??
-    process.env.DATABASE_PRIVATE_URL;
-
-  if (!url) {
-    throw new Error(
-      "DATABASE_URL is not set. Link your Railway Postgres service to this backend service.",
-    );
-  }
-
-  return url;
+    process.env.DATABASE_PRIVATE_URL ??
+    PLACEHOLDER_DATABASE_URL
+  );
 }
 
 export default defineConfig({
