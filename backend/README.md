@@ -24,7 +24,24 @@ Health check: `http://localhost:3001/health`
 1. **PostgreSQL** — add a Postgres plugin in Railway.
 2. **Backend** — deploy from this repo with **Root Directory** set to `backend`.
 
-### 2. Railway settings (backend service)
+### 2. Link Postgres to the backend (required)
+
+`prisma migrate deploy` and the API both need `DATABASE_URL`. Railway does **not** set this unless you link the database.
+
+**Option A — Connect (recommended)**  
+1. Open your **backend** service in Railway  
+2. Click **+ New** → **Database** → **Add PostgreSQL** (or connect an existing one)  
+3. Railway injects `DATABASE_URL` into the backend service automatically  
+
+**Option B — Reference variable**  
+1. Open your **backend** service → **Variables**  
+2. **+ New Variable** → **Add Reference**  
+3. Select your **PostgreSQL** service → choose **`DATABASE_URL`**  
+4. Save and redeploy  
+
+Confirm under **Variables** that `DATABASE_URL` shows a `postgresql://...` value (not empty).
+
+### 3. Railway settings (backend service)
 
 | Setting | Value |
 |---------|--------|
@@ -32,18 +49,25 @@ Health check: `http://localhost:3001/health`
 | Build Command | `npm install && npm run build` |
 | Start Command | `npm start` |
 
-`npm run build` runs `prisma generate`.  
-`npm start` runs `prisma migrate deploy` then starts the server.
+`backend/railway.toml` also configures build/start and runs `npm run migrate` before deploy.
 
-### 3. Environment variables
+| Script | What it does |
+|--------|----------------|
+| `npm run build` | `prisma generate` |
+| `npm run migrate` | `prisma migrate deploy` (needs `DATABASE_URL`) |
+| `npm start` | Starts the API server |
 
-| Variable | Value |
-|----------|--------|
-| `DATABASE_URL` | Reference from Railway Postgres (`${{Postgres.DATABASE_URL}}`) |
-| `NODE_ENV` | `production` |
+### 4. Environment variables
+
+| Variable | Required | Value |
+|----------|----------|--------|
+| `DATABASE_URL` | **Yes** | From linked Railway Postgres (see step 2) |
+| `NODE_ENV` | Recommended | `production` |
 
 `PORT` is set automatically by Railway.  
 Do **not** use `npx prisma dev` or `prisma+postgres://` URLs in production.
+
+Copy `backend/.env.example` for local development only.
 
 Optional for a deployed frontend:
 
@@ -51,14 +75,14 @@ Optional for a deployed frontend:
 |----------|--------|
 | `FRONTEND_URL` | Your frontend origin (e.g. `https://your-app.vercel.app`) |
 
-### 4. Verify deployment
+### 5. Verify deployment
 
 ```bash
 curl https://YOUR-RAILWAY-URL/health
 # {"status":"ok"}
 ```
 
-### 5. Frontend connection
+### 6. Frontend connection
 
 Set the frontend env var:
 
@@ -72,5 +96,6 @@ VITE_API_URL=https://YOUR-RAILWAY-URL/api
 |---------|-------------|
 | `npm run dev` | Dev server with hot reload |
 | `npm run build` | Generate Prisma client |
-| `npm start` | Apply migrations and start server |
+| `npm run migrate` | Apply migrations (`DATABASE_URL` required) |
+| `npm start` | Start server |
 | `npm test` | Run profile calculator unit tests |

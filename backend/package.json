@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "prisma generate",
-    "start": "prisma migrate deploy && tsx src/server.ts",
+    "migrate": "prisma migrate deploy",
+    "start": "tsx src/server.ts",
     "test": "tsx --test src/**/*.test.ts"
   },
   "keywords": [],
