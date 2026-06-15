@@ -18,6 +18,8 @@ API defaults to `http://localhost:3001/api` in dev. Start the backend locally fi
 - Root Directory: `frontend`
 - Framework: Vite
 
+`vercel.json` rewrites all routes to `index.html` so React Router paths like `/admin`, `/register`, and `/quiz` work on refresh and direct links.
+
 ### 2. Environment variable (required)
 
 Vite bakes env vars in at **build time**. You must set this in Vercel **before** deploying:
