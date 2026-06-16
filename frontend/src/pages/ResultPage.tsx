@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import ResultCard from "../components/result/ResultCard";
-import { getProfileDetails } from "../data/profiles";
+import { getProfileDetails, type ProfileName } from "../data/profiles";
 import { getQuizResult } from "../services/quizService";
 import { useQuiz } from "../store/QuizContext";
 
@@ -56,21 +56,19 @@ export default function ResultPage() {
 
   if (isLoading) {
     return (
-      <main className="flex min-h-svh items-center justify-center bg-zinc-950 px-4 text-white">
-        <p className="text-zinc-400">Loading your result...</p>
+      <main className="page-shell-centered">
+        <p className="text-brand-purple-light">Loading your result...</p>
       </main>
     );
   }
 
   if (error || !profileDetails) {
     return (
-      <main className="flex min-h-svh flex-col items-center justify-center bg-zinc-950 px-4 py-8 text-center text-white sm:px-6">
+      <main className="page-shell text-center">
         <div className="max-w-md space-y-4">
-          <h1 className="text-2xl font-semibold">Result unavailable</h1>
-          <p className="text-sm text-zinc-400 sm:text-base">
-            {error ?? "Profile not found."}
-          </p>
-          <Link to="/quiz" className="text-sm text-white underline">
+          <h1 className="page-title">Result unavailable</h1>
+          <p className="page-subtitle">{error ?? "Profile not found."}</p>
+          <Link to="/quiz" className="link-muted">
             Back to quiz
           </Link>
         </div>
@@ -79,17 +77,15 @@ export default function ResultPage() {
   }
 
   return (
-    <main className="flex min-h-svh flex-col items-center justify-center bg-zinc-950 px-4 py-10 text-white sm:px-6">
+    <main className="page-shell py-10">
       <div className="flex w-full max-w-lg flex-col items-center gap-6">
         <ResultCard
           profile={profileDetails}
+          profileName={profile as ProfileName}
           prizeDrawConsent={prizeDrawConsent}
         />
 
-        <Link
-          to="/"
-          className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-white px-8 py-3 font-medium text-zinc-950 transition hover:bg-zinc-200 sm:w-auto"
-        >
+        <Link to="/" className="btn-primary">
           Done
         </Link>
       </div>

@@ -37,50 +37,41 @@ function AdminLoginForm({
   }
 
   return (
-    <main className="flex min-h-svh flex-col items-center justify-center bg-zinc-950 px-4 py-8 text-white sm:px-6">
+    <main className="page-shell">
       <div className="w-full max-w-md space-y-8">
         <div className="space-y-2 text-center">
-          <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">
-            Admin
-          </p>
-          <h1 className="text-2xl font-semibold sm:text-3xl">Sign in</h1>
-          <p className="text-sm text-zinc-400 sm:text-base">
+          <p className="page-eyebrow">Admin</p>
+          <h1 className="page-title">Sign in</h1>
+          <p className="page-subtitle">
             Enter the admin password to view the dashboard.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <label className="block space-y-2">
-            <span className="text-sm text-zinc-300">Password</span>
+            <span className="field-label">Password</span>
             <input
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 text-base text-white outline-none focus:border-white"
+              className="field-input"
               autoComplete="current-password"
               required
             />
           </label>
 
-          {error && (
-            <p className="rounded-lg bg-red-950 px-4 py-3 text-sm text-red-300">
-              {error}
-            </p>
-          )}
+          {error && <p className="alert-error">{error}</p>}
 
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full min-h-12 rounded-full bg-white py-3 text-base font-medium text-zinc-950 transition hover:bg-zinc-200 disabled:opacity-50"
+            className="btn-primary w-full"
           >
             {isSubmitting ? "Signing in..." : "Sign in"}
           </button>
         </form>
 
-        <Link
-          to="/"
-          className="block text-center text-sm text-zinc-400 hover:text-white"
-        >
+        <Link to="/" className="link-muted">
           Back to home
         </Link>
       </div>
@@ -102,25 +93,23 @@ function AdminDashboard({
     stats.problemSolver;
 
   const chartData = [
-    { label: "Connector", value: stats.connector, color: "bg-blue-500" },
-    { label: "Explorer", value: stats.explorer, color: "bg-violet-500" },
-    { label: "Creator", value: stats.creator, color: "bg-pink-500" },
+    { label: "Connector", value: stats.connector, color: "bg-brand-magenta" },
+    { label: "Explorer", value: stats.explorer, color: "bg-brand-purple" },
+    { label: "Creator", value: stats.creator, color: "bg-brand-purple-light" },
     {
       label: "Problem Solver",
       value: stats.problemSolver,
-      color: "bg-emerald-500",
+      color: "bg-brand-red",
     },
   ];
 
   return (
-    <main className="min-h-svh bg-zinc-950 px-4 py-8 text-white sm:px-6 sm:py-10">
+    <main className="min-h-svh bg-white px-4 py-8 text-brand-purple sm:px-6 sm:py-10">
       <div className="mx-auto max-w-6xl space-y-6 sm:space-y-8">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-zinc-500 sm:text-sm">
-              Admin
-            </p>
-            <h1 className="text-2xl font-semibold sm:text-3xl md:text-4xl">
+            <p className="page-eyebrow sm:text-sm">Admin</p>
+            <h1 className="text-2xl font-bold sm:text-3xl md:text-4xl">
               Activation dashboard
             </h1>
           </div>
@@ -128,13 +117,13 @@ function AdminDashboard({
             <button
               type="button"
               onClick={onSignOut}
-              className="text-sm text-zinc-400 transition hover:text-white"
+              className="text-sm text-brand-purple-light transition hover:text-brand-magenta"
             >
               Sign out
             </button>
             <Link
               to="/"
-              className="text-sm text-zinc-400 transition hover:text-white"
+              className="text-sm text-brand-purple-light transition hover:text-brand-magenta"
             >
               Back to home
             </Link>
@@ -146,7 +135,7 @@ function AdminDashboard({
           <Card
             label="Completed quizzes"
             value={completedQuizzes}
-            accent="text-zinc-200"
+            accent="text-brand-purple-light"
           />
           <Card
             label="Completion rate"
@@ -156,7 +145,7 @@ function AdminDashboard({
                 : Math.round((completedQuizzes / stats.participants) * 100)
             }
             suffix="%"
-            accent="text-zinc-200"
+            accent="text-brand-coral"
           />
         </div>
 
@@ -164,18 +153,22 @@ function AdminDashboard({
           <Card
             label="Connector"
             value={stats.connector}
-            accent="text-blue-400"
+            accent="text-brand-magenta"
           />
           <Card
             label="Explorer"
             value={stats.explorer}
-            accent="text-violet-400"
+            accent="text-brand-purple"
           />
-          <Card label="Creator" value={stats.creator} accent="text-pink-400" />
+          <Card
+            label="Creator"
+            value={stats.creator}
+            accent="text-brand-purple-light"
+          />
           <Card
             label="Problem Solver"
             value={stats.problemSolver}
-            accent="text-emerald-400"
+            accent="text-brand-red"
           />
         </div>
 
@@ -240,22 +233,22 @@ export default function AdminPage() {
 
   if (isLoading) {
     return (
-      <main className="flex min-h-svh items-center justify-center bg-zinc-950 text-white">
-        <p className="text-zinc-400">Loading dashboard...</p>
+      <main className="page-shell-centered">
+        <p className="text-brand-purple-light">Loading dashboard...</p>
       </main>
     );
   }
 
   if (error || !stats) {
     return (
-      <main className="flex min-h-svh flex-col items-center justify-center bg-zinc-950 px-6 text-center text-white">
+      <main className="page-shell text-center">
         <div className="max-w-md space-y-4">
-          <h1 className="text-2xl font-semibold">Dashboard unavailable</h1>
-          <p className="text-zinc-400">{error ?? "No stats found."}</p>
+          <h1 className="page-title">Dashboard unavailable</h1>
+          <p className="page-subtitle">{error ?? "No stats found."}</p>
           <button
             type="button"
             onClick={handleSignOut}
-            className="text-sm text-white underline"
+            className="text-sm text-brand-magenta underline"
           >
             Sign out
           </button>

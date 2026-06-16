@@ -19,10 +19,10 @@ export default function QuestionCard({
   return (
     <section className="w-full space-y-5 sm:space-y-6">
       <div className="space-y-2 text-center">
-        <p className="text-xs uppercase tracking-[0.2em] text-zinc-400 sm:text-sm">
+        <p className="page-eyebrow">
           Question {questionNumber} of {totalQuestions}
         </p>
-        <h2 className="text-xl font-semibold leading-tight sm:text-2xl md:text-3xl">
+        <h2 className="text-xl font-bold leading-tight text-brand-purple sm:text-2xl md:text-3xl">
           {question.text}
         </h2>
       </div>

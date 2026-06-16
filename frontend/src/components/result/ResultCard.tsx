@@ -1,36 +1,43 @@
-import type { ProfileDetails } from "../../data/profiles";
+import type { ProfileDetails, ProfileName } from "../../data/profiles";
+import { profileBrandClasses } from "../../theme/brand";
 
 type ResultCardProps = {
   profile: ProfileDetails;
+  profileName: ProfileName;
   prizeDrawConsent: boolean;
 };
 
 export default function ResultCard({
   profile,
+  profileName,
   prizeDrawConsent,
 }: ResultCardProps) {
-  return (
-    <article className="w-full max-w-lg space-y-6 rounded-3xl border border-zinc-800 bg-zinc-900/60 p-6 text-center sm:p-8">
-      <p className="text-xs uppercase tracking-[0.2em] text-zinc-400 sm:text-sm">
-        Your Digital Superpower is
-      </p>
+  const brand = profileBrandClasses[profileName];
 
-      <div className="mx-auto flex h-36 w-36 items-center justify-center rounded-full border border-zinc-700 bg-zinc-950 p-6 sm:h-40 sm:w-40">
+  return (
+    <article
+      className={`w-full max-w-lg space-y-6 rounded-3xl border bg-white p-6 text-center shadow-[0_16px_48px_rgba(71,47,146,0.1)] sm:p-8 ${brand.border}`}
+    >
+      <p className="page-eyebrow">Your Digital Superpower is</p>
+
+      <div className="mx-auto w-full max-w-xs sm:max-w-sm">
         <img
           src={profile.image}
           alt={profile.title}
-          className="h-full w-full object-contain"
+          className="mx-auto w-full object-contain drop-shadow-[0_20px_40px_rgba(71,47,146,0.15)]"
         />
       </div>
 
-      <h1 className="text-3xl font-semibold sm:text-4xl">{profile.title}</h1>
+      <h1 className={`text-3xl font-bold sm:text-4xl ${brand.text}`}>
+        {profile.title}
+      </h1>
 
-      <p className="text-base leading-relaxed text-zinc-300 sm:text-lg">
+      <p className="text-base leading-relaxed text-brand-purple-light sm:text-lg">
         {profile.description}
       </p>
 
       {prizeDrawConsent ? (
-        <p className="rounded-xl border border-emerald-900/50 bg-emerald-950/40 px-4 py-3 text-sm text-emerald-200">
+        <p className="rounded-xl border border-brand-magenta/30 bg-brand-magenta/10 px-4 py-3 text-sm text-brand-magenta">
           You have joined the prize draw. Good luck!
         </p>
       ) : null}

@@ -54,64 +54,64 @@ export default function RegistrationPage() {
   }
 
   return (
-    <main className="flex min-h-svh flex-col items-center justify-center bg-zinc-950 px-4 py-8 text-white sm:px-6">
+    <main className="page-shell">
       <div className="w-full max-w-md space-y-8">
         <div className="space-y-2 text-center">
-          <h1 className="text-2xl font-semibold sm:text-3xl">Register</h1>
-          <p className="text-sm text-zinc-400 sm:text-base">
+          <h1 className="page-title">Register</h1>
+          <p className="page-subtitle">
             Enter your details to join the activation.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <label className="block space-y-2">
-            <span className="text-sm text-zinc-300">Name</span>
+            <span className="field-label">Name</span>
             <input
               type="text"
               value={name}
               onChange={(event) => setName(event.target.value)}
-              className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 text-base text-white outline-none focus:border-white"
+              className="field-input"
               required
             />
           </label>
 
           <label className="block space-y-2">
-            <span className="text-sm text-zinc-300">Email</span>
+            <span className="field-label">Email</span>
             <input
               type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 text-base text-white outline-none focus:border-white"
+              className="field-input"
               required
             />
           </label>
 
-          <label className="flex min-h-11 items-start gap-3 text-sm text-zinc-300">
+          <label className="flex min-h-11 items-start gap-3 text-sm text-brand-purple-light">
             <input
               type="checkbox"
               checked={consentGiven}
               onChange={(event) => setConsentGiven(event.target.checked)}
-              className="mt-1 size-4 shrink-0"
+              className="mt-1 size-4 shrink-0 accent-brand-magenta"
               required
             />
             <span>I consent to the processing of my personal data.</span>
           </label>
 
-          <label className="flex min-h-11 items-start gap-3 text-sm text-zinc-300">
+          <label className="flex min-h-11 items-start gap-3 text-sm text-brand-purple-light">
             <input
               type="checkbox"
               checked={prizeDrawConsent}
               onChange={(event) => setPrizeDrawConsent(event.target.checked)}
-              className="mt-1 size-4 shrink-0"
+              className="mt-1 size-4 shrink-0 accent-brand-magenta"
             />
             <span>I would like to participate in the prize draw.</span>
           </label>
 
           {error && (
-            <p className="rounded-lg bg-red-950 px-4 py-3 text-sm text-red-300">
+            <p className="alert-error">
               {error}
               {!import.meta.env.DEV && API_BASE_URL && (
-                <span className="mt-2 block text-xs text-red-200/80">
+                <span className="mt-2 block text-xs opacity-80">
                   API base: {API_BASE_URL}
                 </span>
               )}
@@ -119,24 +119,23 @@ export default function RegistrationPage() {
           )}
 
           {!isApiConfigured && !import.meta.env.DEV && (
-            <p className="rounded-lg bg-amber-950 px-4 py-3 text-sm text-amber-200">
-              API is not configured. Set <code className="text-amber-100">VITE_API_URL</code> in Vercel to your Railway URL, then redeploy.
+            <p className="alert-warning">
+              API is not configured. Set{" "}
+              <code className="text-brand-purple">VITE_API_URL</code> in Vercel
+              to your Railway URL, then redeploy.
             </p>
           )}
 
           <button
             type="submit"
             disabled={isSubmitting || !consentGiven}
-            className="w-full min-h-12 rounded-full bg-white py-3 text-base font-medium text-zinc-950 transition hover:bg-zinc-200 disabled:opacity-50"
+            className="btn-primary w-full"
           >
             {isSubmitting ? "Registering..." : "Start quiz"}
           </button>
         </form>
 
-        <Link
-          to="/"
-          className="block text-center text-sm text-zinc-400 hover:text-white"
-        >
+        <Link to="/" className="link-muted">
           Back to home
         </Link>
       </div>

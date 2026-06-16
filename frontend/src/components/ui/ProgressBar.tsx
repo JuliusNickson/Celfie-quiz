@@ -8,15 +8,15 @@ export default function ProgressBar({ current, total }: ProgressBarProps) {
 
   return (
     <div className="w-full space-y-2">
-      <div className="flex items-center justify-between text-xs text-zinc-400 sm:text-sm">
+      <div className="flex items-center justify-between text-xs text-brand-purple-light sm:text-sm">
         <span>Progress</span>
         <span>
           {current} / {total}
         </span>
       </div>
-      <div className="h-2 overflow-hidden rounded-full bg-zinc-800">
+      <div className="h-2 overflow-hidden rounded-full bg-brand-purple-light/20">
         <div
-          className="h-full rounded-full bg-white transition-all duration-300"
+          className="h-full rounded-full bg-brand-magenta transition-all duration-300"
           style={{ width: `${progress}%` }}
         />
       </div>

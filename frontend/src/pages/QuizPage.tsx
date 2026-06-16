@@ -58,7 +58,7 @@ export default function QuizPage() {
   const answeredCount = questions.filter((question) => answers[question.id]).length;
 
   return (
-    <main className="flex min-h-svh flex-col items-center justify-center bg-zinc-950 px-4 py-8 text-white sm:px-6 sm:py-10">
+    <main className="page-shell">
       <div className="w-full max-w-xl space-y-6 sm:space-y-8">
         <ProgressBar current={answeredCount} total={questions.length} />
 
@@ -75,7 +75,7 @@ export default function QuizPage() {
             type="button"
             disabled={currentQuestionIndex === 0}
             onClick={() => goToQuestion(currentQuestionIndex - 1)}
-            className="min-h-11 w-full rounded-full border border-zinc-700 px-5 py-2.5 text-sm text-zinc-300 transition hover:border-zinc-500 disabled:opacity-40 sm:w-auto"
+            className="btn-secondary"
           >
             Back
           </button>
@@ -85,18 +85,14 @@ export default function QuizPage() {
               type="button"
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="min-h-11 w-full rounded-full bg-white px-6 py-2.5 text-sm font-medium text-zinc-950 transition hover:bg-zinc-200 disabled:opacity-50 sm:w-auto"
+              className="btn-primary"
             >
               {isSubmitting ? "Submitting..." : "Submit"}
             </button>
           )}
         </div>
 
-        {error && (
-          <p className="rounded-lg bg-red-950 px-4 py-3 text-sm text-red-300">
-            {error}
-          </p>
-        )}
+        {error && <p className="alert-error">{error}</p>}
       </div>
     </main>
   );

@@ -21,8 +21,8 @@ export default function AnswerOption({
       className={clsx(
         "flex min-h-12 w-full items-center rounded-xl border px-4 py-3.5 text-left text-sm transition sm:min-h-14 sm:text-base",
         selected
-          ? "border-white bg-white text-zinc-950"
-          : "border-zinc-700 bg-zinc-900 text-zinc-100 hover:border-zinc-500 active:scale-[0.99]",
+          ? "border-brand-magenta bg-brand-magenta text-white"
+          : "border-brand-purple-light/30 bg-white text-brand-purple hover:border-brand-magenta active:scale-[0.99]",
       )}
     >
       <span className="mr-3 shrink-0 font-semibold">{value}.</span>
