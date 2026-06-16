@@ -93,13 +93,14 @@ curl https://YOUR-RAILWAY-URL/health
 ```
 
 **Registration returns 500 / Internal server error**  
-The database schema may be out of date. Redeploy the backend so `npm run migrate` runs the repair migration, then check:
+Usually means database tables were never created. `npm start` now runs `prisma migrate deploy` automatically. Redeploy the **backend** on Railway, then check:
 
 ```bash
 curl https://YOUR-RAILWAY-URL/api/test/schema
+# {"message":"Database schema is ready","participants":0,"quizResults":0}
 ```
 
-If it still fails, open Railway → Postgres → **Data** → delete all rows / reset the database, then redeploy the backend.
+If it still fails, confirm `DATABASE_URL` is set on the backend service (linked Postgres), then redeploy again.
 
 ## Scripts
 
@@ -108,5 +109,5 @@ If it still fails, open Railway → Postgres → **Data** → delete all rows / 
 | `npm run dev` | Dev server with hot reload |
 | `npm run build` | Generate Prisma client |
 | `npm run migrate` | Apply migrations (`DATABASE_URL` required) |
-| `npm start` | Start server |
+| `npm start` | Apply migrations, then start server |
 | `npm test` | Run profile calculator unit tests |
