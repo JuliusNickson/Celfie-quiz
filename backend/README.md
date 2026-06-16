@@ -74,6 +74,7 @@ Optional for a deployed frontend:
 | Variable | Value |
 |----------|--------|
 | `FRONTEND_URL` | Your Vercel URL (e.g. `https://celfie-quiz.vercel.app`) — required for CORS |
+| `ADMIN_PASSWORD` | Password for the `/admin` dashboard — **required in production** |
 
 ### 6. Frontend connection (Vercel)
 

@@ -37,6 +37,7 @@ app.get("/", (_req, res) => {
       test: "/api/test",
       register: "POST /api/participants/register",
       submitQuiz: "POST /api/quiz/submit",
+      adminLogin: "POST /api/admin/login",
       adminStats: "GET /api/admin/stats",
     },
   });
