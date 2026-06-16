@@ -92,6 +92,15 @@ curl https://YOUR-RAILWAY-URL/health
 # {"status":"ok"}
 ```
 
+**Registration returns 500 / Internal server error**  
+The database schema may be out of date. Redeploy the backend so `npm run migrate` runs the repair migration, then check:
+
+```bash
+curl https://YOUR-RAILWAY-URL/api/test/schema
+```
+
+If it still fails, open Railway → Postgres → **Data** → delete all rows / reset the database, then redeploy the backend.
+
 ## Scripts
 
 | Command | Description |

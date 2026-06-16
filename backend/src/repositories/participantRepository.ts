@@ -17,13 +17,8 @@ export class ParticipantRepository {
   }
 
   findByEmail(email: string) {
-    return prisma.participant.findFirst({
-      where: {
-        email: {
-          equals: email,
-          mode: "insensitive",
-        },
-      },
+    return prisma.participant.findUnique({
+      where: { email },
       include: { quizResult: true },
     });
   }

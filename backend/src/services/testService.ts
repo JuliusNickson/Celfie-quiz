@@ -6,6 +6,10 @@ export class TestService {
   getStatus() {
     return this.repository.getStatus();
   }
+
+  getSchemaStatus() {
+    return this.repository.getSchemaStatus();
+  }
 }
 
 export const testService = new TestService();

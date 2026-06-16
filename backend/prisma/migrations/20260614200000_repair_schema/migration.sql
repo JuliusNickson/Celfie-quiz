@@ -1,14 +1,11 @@
--- CreateEnum
+-- Repair production schema when init ran but align_with_logic did not.
+
 DO $$ BEGIN
     CREATE TYPE "ProfileType" AS ENUM ('CONNECTOR', 'EXPLORER', 'CREATOR', 'PROBLEM_SOLVER');
 EXCEPTION
     WHEN duplicate_object THEN null;
 END $$;
 
--- DropIndex
-DROP INDEX IF EXISTS "QuizResult_participantId_idx";
-
--- AlterTable Participant
 ALTER TABLE "Participant" ADD COLUMN IF NOT EXISTS "name" TEXT;
 ALTER TABLE "Participant" ADD COLUMN IF NOT EXISTS "dataProcessingConsent" BOOLEAN;
 ALTER TABLE "Participant" ADD COLUMN IF NOT EXISTS "prizeDrawConsent" BOOLEAN DEFAULT false;
@@ -40,7 +37,8 @@ ALTER TABLE "Participant" ALTER COLUMN "dataProcessingConsent" SET NOT NULL;
 ALTER TABLE "Participant" ALTER COLUMN "prizeDrawConsent" SET NOT NULL;
 ALTER TABLE "Participant" ALTER COLUMN "prizeDrawConsent" SET DEFAULT false;
 
--- AlterTable QuizResult
+CREATE INDEX IF NOT EXISTS "Participant_email_idx" ON "Participant"("email");
+
 DO $$
 BEGIN
     IF EXISTS (
@@ -66,8 +64,7 @@ BEGIN
     END IF;
 END $$;
 
--- CreateIndex
-CREATE INDEX IF NOT EXISTS "Participant_email_idx" ON "Participant"("email");
+DROP INDEX IF EXISTS "QuizResult_participantId_idx";
 CREATE UNIQUE INDEX IF NOT EXISTS "QuizResult_participantId_key" ON "QuizResult"("participantId");
 CREATE INDEX IF NOT EXISTS "QuizResult_profileType_idx" ON "QuizResult"("profileType");
 CREATE INDEX IF NOT EXISTS "QuizResult_completedAt_idx" ON "QuizResult"("completedAt");

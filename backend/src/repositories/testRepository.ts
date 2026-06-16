@@ -9,6 +9,19 @@ export class TestRepository {
       database: "connected",
     };
   }
+
+  async getSchemaStatus() {
+    await prisma.$queryRaw`SELECT 1`;
+
+    const participants = await prisma.participant.count();
+    const quizResults = await prisma.quizResult.count();
+
+    return {
+      message: "Database schema is ready",
+      participants,
+      quizResults,
+    };
+  }
 }
 
 export const testRepository = new TestRepository();
