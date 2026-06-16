@@ -28,7 +28,7 @@ Vite bakes env vars in at **build time**. You must set this in Vercel **before**
 |----------|---------|
 | `VITE_API_URL` | `https://your-backend.up.railway.app` |
 
-Use your **Railway backend public URL** (HTTPS). `/api` is appended automatically if omitted.
+Use your **Railway backend public URL** including `https://`. Do **not** use a path-only value like `your-app.up.railway.app` without the protocol — that sends requests to Vercel instead of Railway. `/api` is appended automatically if omitted.
 
 ### 3. Redeploy
 

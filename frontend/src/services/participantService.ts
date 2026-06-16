@@ -39,9 +39,9 @@ export async function registerParticipant(
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      if (error.response?.status === 404) {
+      if (error.response?.status === 404 || error.response?.status === 405) {
         throw new Error(
-          `API endpoint not found at ${API_BASE_URL}/participants/register. Check VITE_API_URL points to your Railway backend (test ${API_BASE_URL.replace(/\/api$/, "")}/health).`,
+          `API request did not reach Railway. Set VITE_API_URL to your full backend URL with https:// (e.g. https://celfie-quiz-production.up.railway.app), then redeploy. Current base: ${API_BASE_URL}`,
         );
       }
 

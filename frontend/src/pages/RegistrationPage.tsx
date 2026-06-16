@@ -2,7 +2,7 @@ import { useState } from "react";
 import { flushSync } from "react-dom";
 import { Link, useNavigate } from "react-router-dom";
 import { registerParticipant } from "../services/participantService.ts";
-import { isApiConfigured } from "../services/api.ts";
+import { API_BASE_URL, isApiConfigured } from "../services/api.ts";
 import { useQuiz } from "../store/QuizContext";
 
 export default function RegistrationPage() {
@@ -110,6 +110,11 @@ export default function RegistrationPage() {
           {error && (
             <p className="rounded-lg bg-red-950 px-4 py-3 text-sm text-red-300">
               {error}
+              {!import.meta.env.DEV && API_BASE_URL && (
+                <span className="mt-2 block text-xs text-red-200/80">
+                  API base: {API_BASE_URL}
+                </span>
+              )}
             </p>
           )}
 

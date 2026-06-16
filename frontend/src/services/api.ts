@@ -1,7 +1,16 @@
 import axios from "axios";
 
+function ensureAbsoluteUrl(url: string): string {
+  const trimmed = url.trim();
+  if (/^https?:\/\//i.test(trimmed)) {
+    return trimmed;
+  }
+  return `https://${trimmed}`;
+}
+
 function normalizeApiBaseUrl(url: string): string {
-  const trimmed = url.replace(/\/$/, "");
+  const absolute = ensureAbsoluteUrl(url);
+  const trimmed = absolute.replace(/\/$/, "");
   return trimmed.endsWith("/api") ? trimmed : `${trimmed}/api`;
 }
 
