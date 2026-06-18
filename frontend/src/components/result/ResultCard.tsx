@@ -14,15 +14,15 @@ export default function ResultCard({
 
   return (
     <article
-      className={`w-full max-w-lg space-y-6 rounded-3xl border bg-white p-6 text-center shadow-[0_16px_48px_rgba(71,47,146,0.1)] sm:p-8 ${brand.border}`}
+      className={`mx-auto w-full max-w-lg space-y-6 rounded-3xl border bg-white p-6 text-center shadow-[0_16px_48px_rgba(71,47,146,0.1)] sm:p-8 ${brand.border}`}
     >
-      <p className="page-eyebrow">Your Digital Superpower is</p>
+      <p className="page-eyebrow">Your digital profile is</p>
 
-      <div className="mx-auto w-full max-w-xs sm:max-w-sm">
+      <div className="mx-auto flex h-48 w-full max-w-[15rem] items-center justify-center sm:h-56 sm:max-w-[17rem]">
         <img
           src={profile.image}
           alt={profile.title}
-          className="mx-auto w-full object-contain drop-shadow-[0_20px_40px_rgba(71,47,146,0.15)]"
+          className="max-h-full max-w-full object-contain object-center drop-shadow-[0_20px_40px_rgba(71,47,146,0.15)]"
         />
       </div>
 

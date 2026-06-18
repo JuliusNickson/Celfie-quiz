@@ -14,7 +14,7 @@ const stickers = [
 ] as const;
 
 const stickerTransition = {
-  duration: 1.15,
+  duration: 2.65,
   ease: [0.22, 1, 0.36, 1] as const,
 };
 

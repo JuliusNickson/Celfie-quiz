@@ -54,7 +54,7 @@ export default function ResultPage() {
 
   if (isLoading) {
     return (
-      <main className="page-shell-centered">
+      <main className="page-shell-centered-safe">
         <p className="text-brand-purple-light">Loading your result...</p>
       </main>
     );
@@ -62,7 +62,7 @@ export default function ResultPage() {
 
   if (error || !profileDetails) {
     return (
-      <main className="page-shell text-center">
+      <main className="page-shell-centered-safe text-center">
         <div className="max-w-md space-y-4">
           <h1 className="page-title">Result unavailable</h1>
           <p className="page-subtitle">{error ?? "Profile not found."}</p>
@@ -75,8 +75,8 @@ export default function ResultPage() {
   }
 
   return (
-    <main className="page-shell py-10">
-      <div className="flex w-full max-w-lg flex-col items-center gap-6">
+    <main className="page-shell-centered-safe">
+      <div className="mx-auto flex w-full max-w-lg flex-col items-center gap-6">
         <ResultCard
           profile={profileDetails}
           profileName={profile as ProfileName}

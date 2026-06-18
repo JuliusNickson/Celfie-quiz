@@ -18,12 +18,12 @@ export const questions: Question[] = [
   {
     id: "q1",
     title: "Question 1",
-    text: "What technology do you use the most?",
+    text: "How do you use technology most often?",
     options: [
-      { value: "A", label: "A. Staying in touch with people" },
-      { value: "B", label: "B. Discovering new things" },
-      { value: "C", label: "C. Creating or sharing content" },
-      { value: "D", label: "D. Making everyday tasks easier" },
+      { value: "A", label: "A. To stay in touch with people" },
+      { value: "B", label: "B. To discover new things" },
+      { value: "C", label: "C. To create or share content" },
+      { value: "D", label: "D. To make everyday tasks easier" },
     ],
   },
   {

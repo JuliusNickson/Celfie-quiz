@@ -53,6 +53,21 @@ body {
     @apply flex min-h-svh items-center justify-center bg-white px-4 text-brand-purple;
   }
 
+  .page-shell-centered-safe {
+    --logo-safe-inset: max(1rem, calc(5.5rem + env(safe-area-inset-right, 0px)));
+    @apply flex min-h-svh items-center justify-center bg-white pb-8 text-brand-purple;
+    padding-top: max(5rem, calc(4.5rem + env(safe-area-inset-top, 0px)));
+    padding-left: max(1rem, var(--logo-safe-inset), env(safe-area-inset-left, 0px));
+    padding-right: max(1rem, var(--logo-safe-inset), env(safe-area-inset-right, 0px));
+  }
+
+  @media (min-width: 640px) {
+    .page-shell-centered-safe {
+      --logo-safe-inset: max(1.5rem, calc(7rem + env(safe-area-inset-right, 0px)));
+      padding-top: max(6rem, calc(5.5rem + env(safe-area-inset-top, 0px)));
+    }
+  }
+
   .page-title {
     @apply text-2xl font-bold text-brand-purple sm:text-3xl;
   }
