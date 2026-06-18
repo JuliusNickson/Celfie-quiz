@@ -68,7 +68,6 @@ export class QuizService {
 
     return {
       profile: PROFILE_TYPE_LABELS[quizResult.profileType],
-      prizeDrawConsent: quizResult.participant.prizeDrawConsent,
     };
   }
 }

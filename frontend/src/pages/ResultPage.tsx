@@ -8,7 +8,6 @@ import { useQuiz } from "../store/QuizContext";
 export default function ResultPage() {
   const { participantId } = useQuiz();
   const [profile, setProfile] = useState<string | null>(null);
-  const [prizeDrawConsent, setPrizeDrawConsent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -26,7 +25,6 @@ export default function ResultPage() {
         const result = await getQuizResult(id);
         if (!isMounted) return;
         setProfile(result.profile);
-        setPrizeDrawConsent(result.prizeDrawConsent);
       } catch (loadError) {
         if (!isMounted) return;
         setError(
@@ -82,7 +80,6 @@ export default function ResultPage() {
         <ResultCard
           profile={profileDetails}
           profileName={profile as ProfileName}
-          prizeDrawConsent={prizeDrawConsent}
         />
 
         <Link to="/" className="btn-primary">

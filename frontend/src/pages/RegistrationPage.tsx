@@ -9,9 +9,10 @@ export default function RegistrationPage() {
   const navigate = useNavigate();
   const { setParticipant } = useQuiz();
   const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [profession, setProfession] = useState("");
   const [email, setEmail] = useState("");
   const [consentGiven, setConsentGiven] = useState(false);
-  const [prizeDrawConsent, setPrizeDrawConsent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -23,16 +24,18 @@ export default function RegistrationPage() {
     try {
       const participant = await registerParticipant({
         name,
+        surname,
+        profession,
         email,
         consentGiven,
-        prizeDrawConsent,
       });
 
       flushSync(() => {
         setParticipant(
           participant.id,
           participant.name,
-          participant.prizeDrawConsent,
+          participant.surname,
+          participant.profession,
         );
       });
 
@@ -76,6 +79,28 @@ export default function RegistrationPage() {
           </label>
 
           <label className="block space-y-2">
+            <span className="field-label">Surname</span>
+            <input
+              type="text"
+              value={surname}
+              onChange={(event) => setSurname(event.target.value)}
+              className="field-input"
+              required
+            />
+          </label>
+
+          <label className="block space-y-2">
+            <span className="field-label">Profession</span>
+            <input
+              type="text"
+              value={profession}
+              onChange={(event) => setProfession(event.target.value)}
+              className="field-input"
+              required
+            />
+          </label>
+
+          <label className="block space-y-2">
             <span className="field-label">Email</span>
             <input
               type="email"
@@ -95,16 +120,6 @@ export default function RegistrationPage() {
               required
             />
             <span>I consent to the processing of my personal data.</span>
-          </label>
-
-          <label className="flex min-h-11 items-start gap-3 text-sm text-brand-purple-light">
-            <input
-              type="checkbox"
-              checked={prizeDrawConsent}
-              onChange={(event) => setPrizeDrawConsent(event.target.checked)}
-              className="mt-1 size-4 shrink-0 accent-brand-magenta"
-            />
-            <span>I would like to participate in the prize draw.</span>
           </label>
 
           {error && (

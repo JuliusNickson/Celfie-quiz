@@ -64,8 +64,6 @@ export default function QuizPage() {
 
         <QuestionCard
           question={currentQuestion}
-          questionNumber={currentQuestionIndex + 1}
-          totalQuestions={questions.length}
           selectedAnswer={answers[currentQuestion.id]}
           onSelect={handleSelect}
         />

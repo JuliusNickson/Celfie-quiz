@@ -25,7 +25,6 @@ export default function AnswerOption({
           : "border-brand-purple-light/30 bg-white text-brand-purple hover:border-brand-magenta active:scale-[0.99]",
       )}
     >
-      <span className="mr-3 shrink-0 font-semibold">{value}.</span>
       <span className="leading-snug">{label}</span>
     </button>
   );

@@ -5,12 +5,37 @@ import { participantRepository } from "../repositories/participantRepository.js"
 export type RegisterParticipantResult = {
   id: string;
   name: string;
+  surname: string;
+  profession: string;
   email: string;
-  prizeDrawConsent: boolean;
   createdAt: Date;
   quizCompleted: boolean;
   isReturning: boolean;
 };
+
+function toRegisterResult(
+  participant: {
+    id: string;
+    name: string;
+    surname: string;
+    profession: string;
+    email: string;
+    createdAt: Date;
+    quizResult: unknown | null;
+  },
+  isReturning: boolean,
+): RegisterParticipantResult {
+  return {
+    id: participant.id,
+    name: participant.name,
+    surname: participant.surname,
+    profession: participant.profession,
+    email: participant.email,
+    createdAt: participant.createdAt,
+    quizCompleted: participant.quizResult !== null,
+    isReturning,
+  };
+}
 
 export class ParticipantService {
   constructor(private readonly repository = participantRepository) {}
@@ -20,34 +45,19 @@ export class ParticipantService {
     const existing = await this.repository.findByEmail(email);
 
     if (existing) {
-      return {
-        id: existing.id,
-        name: existing.name,
-        email: existing.email,
-        prizeDrawConsent: existing.prizeDrawConsent,
-        createdAt: existing.createdAt,
-        quizCompleted: existing.quizResult !== null,
-        isReturning: true,
-      };
+      return toRegisterResult(existing, true);
     }
 
     try {
       const participant = await this.repository.create({
         name: input.name.trim(),
+        surname: input.surname.trim(),
+        profession: input.profession.trim(),
         email,
         dataProcessingConsent: input.consentGiven,
-        prizeDrawConsent: input.prizeDrawConsent,
       });
 
-      return {
-        id: participant.id,
-        name: participant.name,
-        email: participant.email,
-        prizeDrawConsent: participant.prizeDrawConsent,
-        createdAt: participant.createdAt,
-        quizCompleted: false,
-        isReturning: false,
-      };
+      return toRegisterResult({ ...participant, quizResult: null }, false);
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
@@ -59,15 +69,7 @@ export class ParticipantService {
           throw new Error("EMAIL_ALREADY_REGISTERED");
         }
 
-        return {
-          id: participant.id,
-          name: participant.name,
-          email: participant.email,
-          prizeDrawConsent: participant.prizeDrawConsent,
-          createdAt: participant.createdAt,
-          quizCompleted: participant.quizResult !== null,
-          isReturning: true,
-        };
+        return toRegisterResult(participant, true);
       }
 
       throw error;

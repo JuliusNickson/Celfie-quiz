@@ -16,7 +16,6 @@ export type SubmitQuizResponse = {
 
 export type QuizResultResponse = {
   profile: string;
-  prizeDrawConsent: boolean;
 };
 
 type ApiErrorResponse = {

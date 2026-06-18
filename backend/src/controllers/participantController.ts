@@ -12,8 +12,9 @@ export async function registerParticipant(
     res.status(participant.isReturning ? 200 : 201).json({
       id: participant.id,
       name: participant.name,
+      surname: participant.surname,
+      profession: participant.profession,
       email: participant.email,
-      prizeDrawConsent: participant.prizeDrawConsent,
       createdAt: participant.createdAt,
       quizCompleted: participant.quizCompleted,
     });

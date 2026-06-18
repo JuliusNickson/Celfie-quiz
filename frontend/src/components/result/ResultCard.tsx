@@ -4,13 +4,11 @@ import { profileBrandClasses } from "../../theme/brand";
 type ResultCardProps = {
   profile: ProfileDetails;
   profileName: ProfileName;
-  prizeDrawConsent: boolean;
 };
 
 export default function ResultCard({
   profile,
   profileName,
-  prizeDrawConsent,
 }: ResultCardProps) {
   const brand = profileBrandClasses[profileName];
 
@@ -35,12 +33,6 @@ export default function ResultCard({
       <p className="text-base leading-relaxed text-brand-purple-light sm:text-lg">
         {profile.description}
       </p>
-
-      {prizeDrawConsent ? (
-        <p className="rounded-xl border border-brand-magenta/30 bg-brand-magenta/10 px-4 py-3 text-sm text-brand-magenta">
-          You have joined the prize draw. Good luck!
-        </p>
-      ) : null}
     </article>
   );
 }

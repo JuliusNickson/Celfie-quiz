@@ -17,6 +17,8 @@ enum ProfileType {
 model Participant {
   id                    String   @id @default(uuid())
   name                  String
+  surname               String
+  profession            String
   email                 String   @unique
   dataProcessingConsent Boolean
   prizeDrawConsent      Boolean  @default(false)

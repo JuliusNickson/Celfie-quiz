@@ -1,7 +1,7 @@
-import connectorSticker from "../assets/Connector.jpg";
-import creatorSticker from "../assets/Creator.jpg";
-import explorerSticker from "../assets/Explorer.jpg";
-import problemSolverSticker from "../assets/ProblemSolver.jpg";
+import connectorSticker from "../assets/Connector.png";
+import creatorSticker from "../assets/Creator.png";
+import explorerSticker from "../assets/Explorer.png";
+import problemSolverSticker from "../assets/ProblemSolver.png";
 
 export type ProfileName =
   | "Connector"

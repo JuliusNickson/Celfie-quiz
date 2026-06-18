@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import connectorSticker from "../assets/Connector.jpg";
-import creatorSticker from "../assets/Creator.jpg";
-import explorerSticker from "../assets/Explorer.jpg";
-import problemSolverSticker from "../assets/ProblemSolver.jpg";
+import connectorSticker from "../assets/Connector.png";
+import creatorSticker from "../assets/Creator.png";
+import explorerSticker from "../assets/Explorer.png";
+import problemSolverSticker from "../assets/ProblemSolver.png";
 
 const stickers = [
   { src: connectorSticker, alt: "Connector sticker" },

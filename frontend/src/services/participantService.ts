@@ -3,16 +3,18 @@ import api, { API_BASE_URL } from "./api.ts";
 
 export type RegisterParticipantPayload = {
   name: string;
+  surname: string;
+  profession: string;
   email: string;
   consentGiven: boolean;
-  prizeDrawConsent: boolean;
 };
 
 export type RegisterParticipantResponse = {
   id: string;
   name: string;
+  surname: string;
+  profession: string;
   email: string;
-  prizeDrawConsent: boolean;
   createdAt: string;
   quizCompleted: boolean;
 };

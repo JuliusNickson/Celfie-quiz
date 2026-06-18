@@ -3,11 +3,14 @@ import { prisma } from "../config/db.js";
 export class ParticipantRepository {
   create(data: {
     name: string;
+    surname: string;
+    profession: string;
     email: string;
     dataProcessingConsent: boolean;
-    prizeDrawConsent: boolean;
   }) {
-    return prisma.participant.create({ data });
+    return prisma.participant.create({
+      data: { ...data, prizeDrawConsent: false },
+    });
   }
 
   findById(id: string) {

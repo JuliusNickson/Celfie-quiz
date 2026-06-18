@@ -14,7 +14,8 @@ type QuizAnswers = Partial<Record<QuestionId, QuizAnswer>>;
 type StoredParticipant = {
   id: string;
   name: string;
-  prizeDrawConsent: boolean;
+  surname: string;
+  profession: string;
 };
 
 const PARTICIPANT_STORAGE_KEY = "digital-superpower-participant";
@@ -23,7 +24,14 @@ function readStoredParticipant(): StoredParticipant | null {
   try {
     const raw = sessionStorage.getItem(PARTICIPANT_STORAGE_KEY);
     if (!raw) return null;
-    return JSON.parse(raw) as StoredParticipant;
+    const parsed = JSON.parse(raw) as StoredParticipant;
+    if (!parsed.id || !parsed.name) return null;
+    return {
+      id: parsed.id,
+      name: parsed.name,
+      surname: parsed.surname ?? "",
+      profession: parsed.profession ?? "",
+    };
   } catch {
     return null;
   }
@@ -36,11 +44,15 @@ function writeStoredParticipant(participant: StoredParticipant) {
 type QuizContextValue = {
   participantId: string | null;
   participantName: string | null;
-  prizeDrawConsent: boolean;
   answers: QuizAnswers;
   currentQuestionIndex: number;
   isComplete: boolean;
-  setParticipant: (id: string, name: string, prizeDrawConsent: boolean) => void;
+  setParticipant: (
+    id: string,
+    name: string,
+    surname: string,
+    profession: string,
+  ) => void;
   setAnswer: (questionId: QuestionId, answer: QuizAnswer) => void;
   goToQuestion: (index: number) => void;
   submitQuiz: () => Promise<string>;
@@ -56,10 +68,9 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     storedParticipant?.id ?? null,
   );
   const [participantName, setParticipantName] = useState<string | null>(
-    storedParticipant?.name ?? null,
-  );
-  const [prizeDrawConsent, setPrizeDrawConsent] = useState(
-    storedParticipant?.prizeDrawConsent ?? false,
+    storedParticipant
+      ? `${storedParticipant.name} ${storedParticipant.surname}`.trim()
+      : null,
   );
   const [answers, setAnswers] = useState<QuizAnswers>({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -70,19 +81,13 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     () => ({
       participantId,
       participantName,
-      prizeDrawConsent,
       answers,
       currentQuestionIndex,
       isComplete,
-      setParticipant(id, name, drawConsent) {
-        writeStoredParticipant({
-          id,
-          name,
-          prizeDrawConsent: drawConsent,
-        });
+      setParticipant(id, name, surname, profession) {
+        writeStoredParticipant({ id, name, surname, profession });
         setParticipantId(id);
-        setParticipantName(name);
-        setPrizeDrawConsent(drawConsent);
+        setParticipantName(`${name} ${surname}`.trim());
         setAnswers({});
         setCurrentQuestionIndex(0);
       },
@@ -113,14 +118,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
         setCurrentQuestionIndex(0);
       },
     }),
-    [
-      participantId,
-      participantName,
-      prizeDrawConsent,
-      answers,
-      currentQuestionIndex,
-      isComplete,
-    ],
+    [participantId, participantName, answers, currentQuestionIndex, isComplete],
   );
 
   return <QuizContext.Provider value={value}>{children}</QuizContext.Provider>;

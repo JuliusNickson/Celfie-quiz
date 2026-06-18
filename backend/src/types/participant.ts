@@ -2,6 +2,8 @@ import { z } from "zod";
 
 export const registerParticipantSchema = z.object({
   name: z.string().trim().min(1, "Name is required"),
+  surname: z.string().trim().min(1, "Surname is required"),
+  profession: z.string().trim().min(1, "Profession is required"),
   email: z
     .string()
     .trim()
@@ -10,7 +12,6 @@ export const registerParticipantSchema = z.object({
   consentGiven: z.literal(true, {
     error: "Consent is required",
   }),
-  prizeDrawConsent: z.boolean(),
 });
 
 export type RegisterParticipantInput = z.infer<typeof registerParticipantSchema>;
