@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import ResultCard from "../components/result/ResultCard";
 import { getProfileDetails, type ProfileName } from "../data/profiles";
 import { getQuizResult } from "../services/quizService";
 import { useQuiz } from "../store/QuizContext";
 
 export default function ResultPage() {
-  const { participantId } = useQuiz();
+  const navigate = useNavigate();
+  const { participantId, signOut } = useQuiz();
   const [profile, setProfile] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -46,6 +47,11 @@ export default function ResultPage() {
     };
   }, [participantId]);
 
+  function handleSignOut() {
+    signOut();
+    navigate("/", { replace: true });
+  }
+
   if (!participantId) {
     return <Navigate to="/register" replace />;
   }
@@ -82,9 +88,18 @@ export default function ResultPage() {
           profileName={profile as ProfileName}
         />
 
-        <Link to="/" className="btn-primary">
-          Done
-        </Link>
+        <div className="flex w-full flex-col items-center gap-3 sm:flex-row sm:justify-center">
+          <Link to="/" className="btn-primary">
+            Done
+          </Link>
+          <button
+            type="button"
+            onClick={handleSignOut}
+            className="btn-secondary"
+          >
+            Sign out
+          </button>
+        </div>
       </div>
     </main>
   );

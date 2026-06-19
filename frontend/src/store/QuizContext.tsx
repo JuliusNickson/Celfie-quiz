@@ -41,6 +41,10 @@ function writeStoredParticipant(participant: StoredParticipant) {
   sessionStorage.setItem(PARTICIPANT_STORAGE_KEY, JSON.stringify(participant));
 }
 
+function clearStoredParticipant() {
+  sessionStorage.removeItem(PARTICIPANT_STORAGE_KEY);
+}
+
 type QuizContextValue = {
   participantId: string | null;
   participantName: string | null;
@@ -57,6 +61,7 @@ type QuizContextValue = {
   goToQuestion: (index: number) => void;
   submitQuiz: () => Promise<string>;
   resetQuiz: () => void;
+  signOut: () => void;
 };
 
 const QuizContext = createContext<QuizContextValue | null>(null);
@@ -114,6 +119,13 @@ export function QuizProvider({ children }: { children: ReactNode }) {
         return result.profile;
       },
       resetQuiz() {
+        setAnswers({});
+        setCurrentQuestionIndex(0);
+      },
+      signOut() {
+        clearStoredParticipant();
+        setParticipantId(null);
+        setParticipantName(null);
         setAnswers({});
         setCurrentQuestionIndex(0);
       },
